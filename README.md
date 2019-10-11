@@ -1,2 +1,3 @@
 # CNU-2018-Fall-DataStructureDesign
-# Professor. JungHee Park
+- Computer Science Engineer
+- Professor : JungHee Park
