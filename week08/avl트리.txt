@@ -1,0 +1,121 @@
+		 AVLTree prevkey = new AVLTree(key, left, right);
+		
+		 if (this.key > key)
+		 left = left.remove(key);
+		 if (this.key < key)
+		 right = right.remove(key);
+		
+		 // 삭제하고자 하는 값(루트의 자식)을 찾았을 때
+		 if (key == this.left.key || key == this.right.key) {
+		 if (key == this.left.key) { // 왼쪽자식에서
+		 // 자식 노드가 존재 X
+		 if (this.left.left == NIL && this.left.right == NIL) {
+		 this.left = NIL;
+		 height = 1 + Math.max(left.height, right.height); // 높이 업데이트
+		 return this;
+		 }
+		
+		 // 자식노드가 하나 존재
+		 else if (this.left.left != NIL && this.left.right == NIL) { // 왼쪽
+		 this.left = left.left;
+		 height = 1 + Math.max(left.height, right.height); // 높이 업데이트
+		 return this;
+		 }
+		
+		 else if (this.left.left == NIL && this.left.right != NIL) { // 오른쪽
+		 this.left = left.right;
+		 height = 1 + Math.max(left.height, right.height); // 높이 업데이트
+		 return this;
+		 }
+		
+		 // 자식노드가 두개 존재
+		 else if (this.left.left != NIL && this.left.right != NIL) {
+		 prevkey = this.left.right; // 자식의 오른쪽 키를 prevkey에 저장
+		 if (prevkey.left != NIL) { // prevkey의 자식 중 맨 왼쪽(가장 작은)자식까지 탐색
+		 while (true) {
+		 prevkey = prevkey.left;
+		 if (prevkey.left == NIL) // 맨 왼쪽(가장 작은)자식을 만나면 멈춤
+		 break;
+		 }
+		 }
+		 this.left.key = prevkey.key; // 맨 왼쪽 자식(가장 작은)값을 왼쪽자식(루트노드)으로 복사
+		 key = prevkey.key; // 복사한 원본 값을 key값으로 설정
+		 this.left.remove(key); // key값 삭제
+		 rebalance(); // 트리 구조 재조정
+		 height = 1 + Math.max(left.height, right.height); // 높이 업데이트
+		 return this;
+		 }
+		 }
+		
+		 if (key == this.right.key) { // 오른쪽자식에서
+		 // 자식 노드가 존재 X
+		 if (this.right.left == NIL && this.right.right == NIL) {
+		 this.right = NIL;
+		 height = 1 + Math.max(left.height, right.height); // 높이 업데이트
+		 return this;
+		 }
+		
+		 // 자식노드가 하나 존재
+		 else if (this.right.left != NIL && this.right.right == NIL) { // 왼쪽
+		 this.right = right.left;
+		 height = 1 + Math.max(left.height, right.height); // 높이 업데이트
+		 return this;
+		 }
+		
+		 else if (this.right.left == NIL && this.right.right != NIL) { // 오른쪽
+		 this.right = right.right;
+		 height = 1 + Math.max(left.height, right.height); // 높이 업데이트
+		 return this;
+		 }
+		
+		 // 자식노드가 두개 존재
+		 else if (this.right.left != NIL && this.right.right != NIL) {
+		 prevkey = this.right.right; // 자식의 오른쪽 키를 prevkey에 저장
+		 if (prevkey.left != NIL) { // prevkey의 자식 중 맨 왼쪽(가장 작은)자식까지 탐색
+		 while (true) {
+		 prevkey = prevkey.left;
+		 if (prevkey.left == NIL) // 맨 왼쪽(가장 작은)자식을 만나면 멈춤
+		 break;
+		 }
+		 }
+		 this.right.key = prevkey.key; // 맨 왼쪽 자식(가장 작은)값을 오른쪽자식(루트노드)으로 복사
+		 key = prevkey.key; // 복사한 원본 값을 key값으로 설정
+		 this.right.remove(key); // key값 삭제
+		 rebalance(); // 트리 구조 재조정
+		 height = 1 + Math.max(left.height, right.height); // 높이 업데이트
+		 return this;
+		 }
+		 }
+		 }
+		
+		 // 삭제하고자 하는 값(루트)을 찾았을 때
+		 if (key == this.key) {
+		 // 자식노드가 두개 존재
+		 if (this.left != NIL && this.right != NIL) {
+		 prevkey = prevkey.right; // 루트의 오른쪽 자식을 prevkey에 저장
+		 if (prevkey.left != NIL) { // prevkey의 자식 중 맨 왼쪽(가장 작은)자식까지 탐색
+		 while (true) {
+		 prevkey = prevkey.left;
+		 if (prevkey.left == NIL) // 맨 왼쪽(가장 작은)자식을 만나면 멈춤
+		 break;
+		 }
+		 }
+		 this.key = prevkey.key; // 맨 왼쪽 자식(가장 작은) 값을 루트로 복사
+		 key = prevkey.key; // 복사한 원본 값을 key값으로 설정
+		 if (this.right.left == NIL && this.right.right == NIL && this.right.key ==
+		 key)
+		 this.right = NIL;
+		 else if (this.left.left == NIL && this.left.right == NIL && this.left.key ==
+		 key)
+		 this.left = NIL;
+		 else
+		 this.right.remove(key);
+		
+		 rebalance(); // 트리 구조 재조정
+		 height = 1 + Math.max(left.height, right.height); // 높이 업데이트
+		 return this;
+		 }
+		 }
+		
+		 rebalance(); // 트리 구조 재조정
+		 height = 1 + Math.max(left.height, right.height); // 높이 업데
