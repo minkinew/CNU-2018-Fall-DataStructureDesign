@@ -1,4 +1,4 @@
-# CNU-2018-Spring-DataStructure
+# CNU-2018-Fall-DataStructureDesign
 - ChungNam National University
 - Computer Science Engineering
 - 201502023 MinKi Kim
